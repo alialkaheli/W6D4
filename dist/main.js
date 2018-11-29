@@ -86,14 +86,25 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/dom_node_collection.js":
+/*!************************************!*\
+  !*** ./src/dom_node_collection.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("function DOMNodeCollection(html) {\n  this.html = html;\n}\n\nDOMNodeCollection.prototype.html = function (string) {\n  if (!string) {\n    return this[0].innerHTML;\n  }\n  this.forEach( el => {\n    el.innerHTML = string;\n  });\n};\nDOMNodeCollection.prototype.empty = function () {\n  this.forEach( el => {\n    el.innerHTML = '';\n  });\n};\n\nDOMNodeCollection.prototype.append = function(children) {\n  if (this.html.length === 0) return;\n  if (typeof children === 'object' && !(children instanceof DomNodeCollection)) {      \n    children = $l(children);\n  }\n  if (typeof children === \"string\") {\n    this.each((item) => {\n      item.innerHTML += children;\n    });\n  } else if (children instanceof DomNodeCollection) {      \n    this.each((item) => {\n      children.each((childNode) => {\n        item.appendChild(childNode.cloneNode(true));\n      });\n    });\n  }\n};\n\nDOMNodeCollection.prototype.attr = function (item) {\n  this.forEach( el => {\n    el.innerHTML.push(item.outerHTML);\n  });\n};\nDOMNodeCollection.prototype.addClass = function (item) {\n  this.forEach( el => {\n    el.innerHTML.push(item.outerHTML);\n  });\n};\nDOMNodeCollection.prototype.removeClass = function (item) {\n  this.forEach( el => {\n    el.innerHTML.push(item.outerHTML);\n  });\n};\n\nmodule.exports = DOMNodeCollection;\n\n//# sourceURL=webpack:///./src/dom_node_collection.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-eval("window.$l = (arg1) => {\n  const nodeList = document.querySelectorAll(arg1);\n  debugger\n  console.dir(nodeList);\n  const nodeArray = Array.from(nodeList);\n  console.dir(nodeArray);\n};\n\n\n// window.$l('li');\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("const DOMNodeCollection = __webpack_require__(/*! ./dom_node_collection.js */ \"./src/dom_node_collection.js\");\n\nwindow.$l = (arg1) => {\n  const nodeList = document.querySelectorAll(arg1);\n  // debugger\n  console.dir(nodeList);\n  const nodeArray = Array.from(nodeList);\n  console.dir(nodeArray);\n  if (arg1 instanceof HTMLElement) {\n    return new DOMNodeCollection(nodeArray);\n  }\n};\n\n\n// window.$l('li');\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
