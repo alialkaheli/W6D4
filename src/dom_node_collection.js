@@ -35,19 +35,22 @@ DOMNodeCollection.prototype.append = function(children) {
 };
 
 DOMNodeCollection.prototype.attr = function (item) {
-  this.forEach( el => {
-    el.innerHTML.push(item.outerHTML);
-  });
+
 };
 DOMNodeCollection.prototype.addClass = function (item) {
-  this.forEach( el => {
-    el.innerHTML.push(item.outerHTML);
-  });
+
 };
 DOMNodeCollection.prototype.removeClass = function (item) {
-  this.forEach( el => {
-    el.innerHTML.push(item.outerHTML);
-  });
+
 };
+
+DOMNodeCollection.prototype.children = function () {
+  let childNodes = [];
+  this.each( node => {
+    childNodes = childNodes.concat(Array.from(node.children));
+  });
+  return new DOMNodeCollection(childNodes);
+};
+
 
 module.exports = DOMNodeCollection;
