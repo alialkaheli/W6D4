@@ -34,13 +34,19 @@ DOMNodeCollection.prototype.append = function(children) {
   }
 };
 
-DOMNodeCollection.prototype.attr = function (item) {
+DOMNodeCollection.prototype.attr = function (key,val) {
+  if (typeof val === "string") {
+    this.each(node => node.setAttribute(key, val));
+  } else {
+    return this.nodes[0].getAttribute(key);
+  }
 
 };
-DOMNodeCollection.prototype.addClass = function (item) {
-
+DOMNodeCollection.prototype.addClass = function (newClass) {
+  this.each(node => node.classList.add(newClass));
 };
-DOMNodeCollection.prototype.removeClass = function (item) {
+DOMNodeCollection.prototype.removeClass = function (oldClass) {
+  this.each(node => node.classList.remove(oldClass));
 
 };
 
@@ -50,6 +56,32 @@ DOMNodeCollection.prototype.children = function () {
     childNodes = childNodes.concat(Array.from(node.children));
   });
   return new DOMNodeCollection(childNodes);
+};
+
+DOMNodeCollection.prototype.parent = function (el) {
+  const parentnodes = [];
+  this.each((parentnode) => {
+    if(!parentnode.visited){
+      parentnodes.push(parentnode);
+      parentnode.visited = true;
+    }
+  });
+  parentnodes.forEach((node) => {
+    node.visited = false;
+  });
+  return new DomNodeCollection(parentnodes);
+};
+
+DOMNodeCollection.prototype.find = function (selector) {
+  let nodes = [];
+  this.each(node => {
+    nodes = nodes.concat(Array.from(node.querySelectorAll(selector)));
+  });
+  return new DomNodeCollection(nodes);
+};
+
+DOMNodeCollection.prototype.remove = function (newClass) {
+  this.each(node => node.classList.add(newClass));
 };
 
 
