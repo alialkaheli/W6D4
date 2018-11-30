@@ -80,8 +80,8 @@ DOMNodeCollection.prototype.find = function (selector) {
   return new DomNodeCollection(nodes);
 };
 
-DOMNodeCollection.prototype.remove = function (newClass) {
-  this.each(node => node.classList.add(newClass));
+DOMNodeCollection.prototype.remove = function () {
+  this.html.each( node => node.parentNode.removeChild(node));
 };
 
 
